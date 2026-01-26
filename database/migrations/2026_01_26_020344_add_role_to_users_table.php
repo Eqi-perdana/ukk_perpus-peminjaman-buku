@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('siswas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nit')->unique();          // Nomor Induk Siswa
-            $table->string('nama');
-            $table->string('kelas');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['admin', 'siswa'])->default('siswa');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('siswas');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

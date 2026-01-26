@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Models\Siswa;
 
 class SiswaController extends Controller
 {
@@ -15,13 +16,18 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nis' => 'required|unique:siswas',
+            'nis' => 'required|unique:siswa,nis',
             'nama' => 'required',
             'kelas' => 'required',
-            'jenis_kelamin' => 'required'
+            'jenis_kelamin' => 'required|in:L,P',
         ]);
 
-        return response()->json(Siswa::create($data), 201);
+        $siswa = Siswa::create($data);
+
+        return response()->json([
+            'message' => 'Siswa berhasil ditambahkan',
+            'data' => $siswa
+        ], 201);
     }
 
     public function update(Request $request, $id)
