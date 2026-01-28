@@ -1,11 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\SiswaController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookController;
 
 Route::get('/test', function () {
-    return response()->json(['status' => 'API OK']);
+    return response()->json(['ok' => true]);
 });
 
-Route::get('/siswa', [SiswaController::class, 'index']);
-Route::post('/siswa', [SiswaController::class, 'store']);
+Route::post('/login',[AuthController::class,'login']);
+Route::post('/register',[AuthController::class,'register']);
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
