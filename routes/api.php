@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // User Info
     Route::get('/me', [AuthController::class, 'me']);
-
-    // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 
     /*
@@ -39,5 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('admin')->group(function () {
 
         Route::get('/admin/chart', [AdminController::class, 'chart']);
+
+        Route::apiResource('books', BookController::class);
     });
 });
