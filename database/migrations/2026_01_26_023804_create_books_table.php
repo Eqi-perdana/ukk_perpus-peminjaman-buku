@@ -9,15 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id('id_buku');
-            $table->string('judul_buku');
-            $table->string('penulis');
-            $table->string('penerbit')->nullable();
-            $table->year('tahun_terbit');
-            $table->integer('stock')->default(0);
+            $table->id();
+            $table->string('title');      // JANGAN 'judul'
+            $table->string('author');     // JANGAN 'penulis'
+            $table->string('publisher');  // JANGAN 'penerbit'
+            $table->integer('year');      // JANGAN 'tahun_terbit'
+            $table->integer('stock');     // JANGAN 'stok'
             $table->timestamps();
         });
     

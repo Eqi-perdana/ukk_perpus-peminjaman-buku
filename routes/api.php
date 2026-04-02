@@ -25,6 +25,7 @@ Route::post('/register', [AuthController::class, 'register']);
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('books', BookController::class);
 
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -37,7 +38,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('admin')->group(function () {
 
         Route::get('/admin/chart', [AdminController::class, 'chart']);
-
-        Route::apiResource('books', BookController::class);
     });
 });

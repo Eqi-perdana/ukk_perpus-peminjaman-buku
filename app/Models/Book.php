@@ -2,23 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    use HasFactory;
+
+    // Nama tabel (pastikan sesuai di database)
     protected $table = 'books';
 
-    protected $primaryKey = 'id_buku';
-
-    public $incrementing = true;
-
-    protected $keyType = 'int';
-
+    // Kolom yang boleh diisi (Mass Assignable)
+    // Sesuaikan dengan nama kolom di PHPMyAdmin kamu
     protected $fillable = [
-        'judul_buku',
-        'penulis',
-        'penerbit',
-        'tahun_terbit',
+        'title',
+        'author',
+        'publisher',
+        'year',
         'stock'
     ];
 }

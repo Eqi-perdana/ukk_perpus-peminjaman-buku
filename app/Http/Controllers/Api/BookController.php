@@ -10,14 +10,15 @@ class BookController extends Controller
 {
     public function index()
     {
+        // Kita ambil semua dan mapping agar key JSON sesuai dengan yang diminta React (Frontend)
         $books = Book::all()->map(function ($b) {
             return [
-                'id' => $b->id_buku,
-                'title' => $b->judul_buku,
-                'author' => $b->penulis,
+                'id'        => $b->id_buku, // Primary key di DB
+                'title'     => $b->judul_buku,
+                'author'    => $b->penulis,
                 'publisher' => $b->penerbit,
-                'year' => $b->tahun_terbit,
-                'stock' => $b->stock,
+                'year'      => $b->tahun_terbit,
+                'stock'     => $b->stock,
             ];
         });
 
@@ -26,48 +27,46 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'publisher' => 'nullable',
-            'year' => 'required|numeric',
-            'stock' => 'required|numeric',
+        // Cek apakah data masuk dengan benar
+        // return $request->all(); // <--- Hapus komentar ini untuk tes di Postman/Browser jika ragu
+
+        $validated = $request->validate([
+            'title'     => 'required',
+            'author'    => 'required',
+            'publisher' => 'required',
+            'year'      => 'required|numeric',
+            'stock'     => 'required|numeric',
         ]);
 
-        $book = Book::create([
-            'judul_buku' => $data['title'],
-            'penulis' => $data['author'],
-            'penerbit' => $data['publisher'],
-            'tahun_terbit' => $data['year'],
-            'stock' => $data['stock'],
-        ]);
-
-        return response()->json($book, 201);
+        return Book::create($validated);
     }
 
     public function show($id)
     {
-        return response()->json(Book::findOrFail($id));
+        // Gunakan findOrFail agar jika tidak ada, return 404 otomatis
+        $book = Book::where('id_buku', $id)->firstOrFail();
+        return response()->json($book);
     }
 
     public function update(Request $request, $id)
     {
-        $book = Book::findOrFail($id);
+        // Cari berdasarkan id_buku
+        $book = Book::where('id_buku', $id)->firstOrFail();
 
         $data = $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'publisher' => 'nullable',
-            'year' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'title'     => 'required|string|max:255',
+            'author'    => 'required|string|max:255',
+            'publisher' => 'nullable|string|max:255',
+            'year'      => 'required|numeric',
+            'stock'     => 'required|numeric',
         ]);
 
         $book->update([
-            'judul_buku' => $data['title'],
-            'penulis' => $data['author'],
-            'penerbit' => $data['publisher'],
+            'judul_buku'   => $data['title'],
+            'penulis'      => $data['author'],
+            'penerbit'     => $data['publisher'],
             'tahun_terbit' => $data['year'],
-            'stock' => $data['stock'],
+            'stock'        => $data['stock'],
         ]);
 
         return response()->json($book);
@@ -75,7 +74,10 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        Book::destroy($id);
-        return response()->json(['message' => 'Deleted']);
+        // Hapus berdasarkan id_buku
+        $book = Book::where('id_buku', $id)->firstOrFail();
+        $book->delete();
+
+        return response()->json(['message' => 'Buku berhasil dihapus']);
     }
 }
