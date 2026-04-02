@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('books', function (Blueprint $table) {
-    $table->id();
-    $table->string('title');
-    $table->string('author');
-    $table->integer('stock');
-    $table->timestamps();
-});
-
+        Schema::create('books', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');      // JANGAN 'judul'
+            $table->string('author');     // JANGAN 'penulis'
+            $table->string('publisher');  // JANGAN 'penerbit'
+            $table->integer('year');      // JANGAN 'tahun_terbit'
+            $table->integer('stock');     // JANGAN 'stok'
+            $table->timestamps();
+        });
+    
     }
 
     /**
