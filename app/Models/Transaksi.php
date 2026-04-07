@@ -5,33 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Peminjaman extends Model
+class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'peminjaman';
+    // Nama tabel jika kamu tidak menggunakan nama jamak (plural) otomatis
+    protected $table = 'transaksis';
 
+    // Kolom yang boleh diisi secara massal
     protected $fillable = [
         'user_id',
         'book_id',
         'tanggal_pinjam',
         'tanggal_kembali',
-        'status'
+        'status',
     ];
 
-    protected $casts = [
-        'tanggal_pinjam' => 'date',
-        'tanggal_kembali' => 'date',
-    ];
-
-    // Relasi
+    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // public function book()
-    // {
-    //     return $this->belongsTo(Book::class);
-    // }
+    // Relasi ke Buku
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
 }

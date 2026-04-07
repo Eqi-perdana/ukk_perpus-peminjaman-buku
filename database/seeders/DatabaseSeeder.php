@@ -1,18 +1,15 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders; // Cek namespace ini harus ada
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder // Nama 'UserSeeder' harus sama dengan nama file
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        $this->call([
-            AdminSeeder::class,
-        ]);
+        // ... kode seeder kamu
     }
 }
